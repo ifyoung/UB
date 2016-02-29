@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++239" : {
+
+    },
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++239" : 0,
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "62AB94CE-61DC-4B80-9231-FE75973D647F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++239" : "%E8%B5%9B%E6%A0%BC%E8%BD%A6%E5%9C%A3%E6%AD%A3%E5%BC%8F%E7%89%88-9.5\/",
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144" : "U%E5%AE%9D\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "U宝",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "U宝.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/90.0.12.1\/home\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++239"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/90.0.12.1\/home\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144"
+    }
+  ]
+}

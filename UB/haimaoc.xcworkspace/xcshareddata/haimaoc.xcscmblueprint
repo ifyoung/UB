@@ -1,0 +1,24 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144+++7678E55" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144+++7678E55" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6F7A2AF7-4194-4166-BAE5-68694C8C74AA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144+++7678E55" : "UB\/U%E5%AE%9D\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "haimaoc",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "haimaoc.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/90.0.12.1\/home\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++9144+++7678E55"
+    }
+  ]
+}

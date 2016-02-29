@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++481",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++481" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++481" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A6629046-DFE4-4E55-9546-86FBE0BD9219",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2414dd0c-2b10-41ac-9b40-24e9db82e45c++481" : "%E8%B5%9B%E6%A0%BC%E8%BD%A6%E5%9C%A3iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "GBoss",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CSUB\/UB\/GBoss\/GBoss.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/90.0.12.1\/home\/svn",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2414dd0c-2b10-41ac-9b40-24e9db82e45c++481"
+    }
+  ]
+}

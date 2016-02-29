@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AAFA58E8-0072-4E2E-A04C-41D6649ADA26</string>
+	<key>IDESourceControlProjectName</key>
+	<string>赛格车圣</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2414dd0c-2b10-41ac-9b40-24e9db82e45c++481</key>
+		<string>svn://90.0.12.1/home/svn/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3%25E6%2599%25BA%25E8%2581%2594/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3iOS</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>赛格车圣/赛格车圣.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2414dd0c-2b10-41ac-9b40-24e9db82e45c++481</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>2414dd0c-2b10-41ac-9b40-24e9db82e45c++481</key>
+		<string>svn://90.0.12.1/home/svn</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn://90.0.12.1/home/svn/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3%25E6%2599%25BA%25E8%2581%2594/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3/%25E8%25B5%259B%25E6%25A0%25BC%25E8%25BD%25A6%25E5%259C%25A3iOS/%E8%B5%9B%E6%A0%BC%E8%BD%A6%E5%9C%A3/%E8%B5%9B%E6%A0%BC%E8%BD%A6%E5%9C%A3.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2414dd0c-2b10-41ac-9b40-24e9db82e45c++481</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2414dd0c-2b10-41ac-9b40-24e9db82e45c++481</string>
+			<key>IDESourceControlWCCName</key>
+			<string>%E8%B5%9B%E6%A0%BC%E8%BD%A6%E5%9C%A3iOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>

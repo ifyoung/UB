@@ -1,0 +1,389 @@
+/***********************************************************************
+* 
+* 2014-06-09 zhangxz:
+* ShortMessage 添加recvTime, 为保存到Hbase做Key
+* 
+* 2014-06-13 zhangxz:
+* 终端警情虽然和GPS结构一样，但为了以后可能不一样。定义另一种结构
+*
+* 2014-06-17 zhangxz:
+* 为了减少和车圣宝典手机的通信量，取历史公位置时，只取简单信息GpsSimpleInfo
+
+* 2014-07-12 zhangxz:
+* 字符集都是以UTF-8为字符集
+
+* 2014-07-23 zhangxz:
+* OBD单独存储（最后位置必要最后OBD），OBD增加caller,和时间
+
+* 2014-09-15 zhangxz:
+* 出租车营运数据增加
+*       preprice：营运结束单价；
+*       liceseno：许可证号
+
+* 2014-12-08 zhangxz:
+* OBD增加终端类型
+
+* 2015-01-08 zhangxz:
+* 增加终端类型
+* 修改AlarmInfo
+* 增加APP通知
+
+***********************************************************************/
+
+package gboss;
+
+option java_package = "cc.chinagps.gboss.comcenter.buff";
+option java_outer_classname = "GBossDataBuff";
+
+/*
+* 附加信息
+*/
+message MapEntry {
+    required string key = 1;    //附加信息键
+    required string value = 2;  //附加信息值
+};
+
+/*************************************************************************************
+ * GPS实时OBD信息(OBD)   ！！！！！！！哈哈哈哈哈哈
+ *************************************************************************************/
+message OBDInfo {
+	optional int32 remainOil = 1;			//剩余油量（单位：0.01升）
+	optional int32 remainPercentOil = 2;	//剩余油量百分比（单位：0.1%）
+	optional int32 averageOil = 3;			//平均油耗（单位：0.01升/百公里）
+	optional int32 hourOil = 4;			    //小时油耗（单位：0.01升/小时）
+	optional int32 totalDistance = 5;		//总里程（单位：米）
+	optional int32 waterTemperature = 6;	//水温（单位：℃）
+	optional int32 reviseOil = 7;			//燃油修正（0.1%）
+	optional int32 rotationSpeed = 8;		//发动机转速（单位：转/分）
+	optional int32 intakeAirTemperature = 9;//进气温度（单位：℃）
+	optional int32 airDischange = 10;		//空气流量(g/s)
+	repeated MapEntry otherInfo = 11;		//其他数据（暂时不解析）
+	optional string callLetter = 12;		//车辆呼号
+	optional int64 gpsTime = 13;			//GPS时间
+	optional int32 speed = 14;			    //OBD速度（单位：0.1千米/小时）
+	optional int32 remainDistance = 15;		//剩余里程（单位：米）
+	optional int32 unitType = 16;		    //终端协议类型 
+	optional int32 history = 17;			//是否是黑匣子记录（0、或不存在表示是实时，1:表示是黑匣子记录, 2:表示盲点补传）
+}
+
+/*************************************************************************************
+* GPS简单信息
+*************************************************************************************/
+message GpsSimpleInfo {
+    required int64 gpsTime = 1;             //GPS时间(从1970-1-1 0:0:0开始的秒数), 为了提高处理速度,不用字符串
+    required bool loc = 2;                  //是否定位
+    required int32 lat = 3;                 //纬度(单位：百万分之一度，北正南负）
+    required int32 lng = 4;                 //经度(单位：百万分之一度，东正西负）
+    required int32 speed = 5;               //速度（单位：百米每小时）
+    required int32 course = 6;              //方向（单位：度，正北0，顺时针增加）
+    repeated int32 status = 7;              //状态（多个）
+    optional int32 totalDistance = 8;       //总里程（单位：米）
+    optional int32 oil = 9;                 //油箱中油量（单位：0.01升）
+	optional int32 remainPercentOil = 10;	//剩余油量百分比（单位：0.1%）
+    optional int32 canspeed = 11;           //CAN速度（单位：百米每小时）,可能没有
+    optional int32 remainDistance = 12;		//剩余里程（单位：米）
+};
+
+/**
+ * 基站信息
+ */
+message BaseStationInfo {
+	required string mcc = 1;	//移动国家代码（中国为460） 
+	required string mnc = 2;	//移动网络号码（中国移动为0，中国联通为1，中国电信为2）
+	required int32 lac = 3;		//位置区域码
+	required int32 cid = 4;		//基站编号
+	optional int32 bsss = 5;	//基站信号强度(单位：dbm)
+};
+
+/**
+ * 基站定位信息
+ */
+message BaseStationAddress {
+	required int32 lat = 1;			//纬度(单位：百万分之一度，北正南负）
+	required int32 lng = 2;         //经度(单位：百万分之一度，东正西负）
+	optional int32 precision = 3;	//精度(单位：米)
+	optional string addressDesc = 4;//位置描述
+};
+
+/**
+ * 一动网信息
+ */
+message YDWInfo {
+	required int32 temperature = 1;		//温度（单位：十分之一摄氏度）
+	required int32 drivingTime = 2;		//行驶时长（单位:秒）
+	required int32 totalDistance = 3;	//即时里程（单位：米）
+	required int32 unitPower = 4;		//车台电量（数值为0~5，越大表示电量越高）
+	required int32 bluetoothPower = 5;	//蓝牙感应器电量（数值为0~5，越大表示电量越高）
+};
+
+/**
+ * 节点丢失信息
+ * 0:无丢失  1:有丢失
+ */
+message NodeLostInfo {
+	optional int32 abs = 1;
+	optional int32 esp = 2;
+	optional int32 ems = 3;
+	optional int32 peps = 4;
+	optional int32 tcu = 5;
+	optional int32 bcm = 6;
+	optional int32 icm = 7;
+};
+
+ /**
+  * 节点故障信息
+  * 0:无故障  1:有故障
+  */
+message NodeFaultInfo {
+	optional int32 ebd = 1;
+	optional int32 abs = 2;
+	optional int32 esp = 3;		//esp/tcs
+	optional int32 svs = 4;
+	optional int32 mil = 5;
+	optional int32 tcu = 6;
+	optional int32 peps = 7;
+	optional int32 tbox = 8;
+};
+
+ /**
+  * 故障灯状态
+  */
+message FaultLightStatus {
+	optional NodeLostInfo nodeLostInfo = 1;		//节点丢失信息
+	optional NodeFaultInfo nodeFaultInfo = 2;	//节点故障信息
+};
+
+/*************************************************************************************
+* GPS基本信息     ！！！！！！！哈哈哈哈哈哈
+*************************************************************************************/
+message GpsBaseInfo {
+	required int64 gpsTime = 1;			//GPS时间(从1970-1-1 0:0:0开始的毫秒数), 为了提高处理速度,不用字符串
+	required bool loc = 2;				//是否定位
+	required int32 lat = 3;				//纬度(单位：百万分之一度，北正南负）
+	required int32 lng = 4;				//经度(单位：百万分之一度，东正西负）
+	required int32 speed = 5;			//速度（单位：百米每小时）
+	required int32 course = 6;			//方向（单位：度，正北0，顺时针增加）
+	repeated int32 status = 7;			//状态（多个）
+	optional int32 totalDistance = 8;	//总里程（单位：米）
+	optional int32 oil = 9;				//油箱中油量（单位：十分之一升）
+	optional int32 oilPercent = 10;		//油箱中油量千分比
+	optional int32 temperature1 = 11;	//温度1（单位：十分之一摄氏度）
+	optional int32 temperature2 = 12;	//温度2（单位：十分之一摄氏度）
+	repeated MapEntry appendParams = 13;//附加项(多个)
+	optional OBDInfo obdInfo = 14;		//OBD数据
+	repeated BaseStationInfo baseStations = 15;	//基站信息
+	optional BaseStationAddress address = 16;	//基站定位信息
+	optional YDWInfo ydwInfo = 17;			    //一动网信息
+	optional int32 signal = 18;	                //通讯模块信号强度(0~31, 31表示信号最好)
+	optional FaultLightStatus faultLightStatus = 19;//故障灯状态
+};
+
+/*
+* GPS道路信息
+*/
+message GpsRoadInfo {
+	required string name = 1;       //道路名称
+	required int32 level = 2;       //道路等级
+	required int32 distance = 3;    //点到道路的距离
+	optional int32 id = 4;          //道路编号
+	optional int32 latOnRoad = 5;   //匹配路上纬度(单位：百万分之一度）
+	optional int32 lngOnRoad = 6;   //匹配路上经度(单位：百万分之一度）
+};
+
+/*
+* GPS参考点信息
+*/
+message GpsPointInfo {
+	required string name = 1;       //参考点名称
+	required int32 type= 2;         //参考点类型
+	required int32 distance = 3;    //点到参考点的距离
+	optional int32 id = 4;          //参考点编号
+};
+
+/*************************************************************************************
+ * GPS参考位置信息    ！！！！！！！！哈哈哈哈哈
+ *************************************************************************************/
+message GpsReferPosition {
+	required string province = 1;	    //省
+	required string city = 2;           //市
+	required string county = 3;         //县
+	repeated GpsRoadInfo roads = 4;     //所在道路信息（可能在多条路交叉点）
+	repeated GpsPointInfo points = 5;   //周边参考点信息（可能有多个）
+};
+
+/*
+* GPS完整信息
+*/
+message GpsInfo {
+	required string callLetter = 1;			//车辆呼号
+	required GpsBaseInfo baseInfo = 2;			//gps基本信息，请参考基本信息protobuf定义
+	optional GpsReferPosition referPosition = 3;	//参考位置，请参考参考位置protobuf定义
+	optional bytes content = 4;				//车台上传的原码，不转换成BCD码
+	optional int32 history = 5;				//是否是黑匣子记录（0、或不存在表示是实时GPS，1:表示是黑匣子记录, 2:表示盲点补传）
+};
+
+/**
+ * 警情信息
+ */
+message AlarmInfo{
+	required string callLetter = 1;			//车辆呼号
+	required GpsBaseInfo baseInfo = 2;			//gps基本信息，请参考基本信息protobuf定义
+	optional GpsReferPosition referPosition = 3;	//参考位置，请参考参考位置protobuf定义
+	optional bytes content = 4;				//车台上传的原码，不转换成BCD码
+	optional int32 history = 5;				//是否是黑匣子记录（0、或不存在表示是实时GPS，1:表示是黑匣子记录, 2:表示盲点补传）
+	optional int32 unittype = 6;			//终端类型
+	optional int32 trigger = 7;				//触发条件
+								//0x21：点火上报
+								//0x22：熄火上报
+								//0x23：休眼上报
+								//0x24：关机上报
+								//0x25: 警情上报
+								//0x2B：熄火未关灯上报
+								//0x2C：熄火未关门上报
+								//0x2D：熄火未锁门上报
+}
+
+/*
+* 终端软件版本
+*/
+message UnitVersion {
+	required string callLetter = 1;		//车辆呼号
+	required string version = 2;		//终端软件版本
+	optional int32  result = 3;			//版本升级结果 0:成功  其他失败
+};
+
+/*************************************************************************************
+* 运营数据基本信息
+*************************************************************************************/
+message OperateDataBaseInfo {
+	required int32 price = 1;		    //价格（单位：分）
+	required int32 countTime = 2;           //计时(单位：毫秒）
+	required int32 operateMoney = 3;        //收费(单位：分）
+	required int32 operateMile = 4;         //运营里程（单位：米）
+	optional int32 nullMile = 5;            //空载里程（单位：米）
+	optional int32 overSpeedMile = 6;       //超速里程（单位：米）
+	optional int32 overSpeedCount = 7;      //超速次数
+	optional int32 powerOffCount = 8;       //断电次数
+	optional int32 powerOffTime = 9;        //断电时间（单位:秒）
+	optional int32 sequenceNo = 10;         //流水号
+	repeated MapEntry appendParams = 11;    //附加项(多个)
+	optional int32 perprice = 12;           //营运结束单价
+	optional string licenseno = 13;         //许可证号
+};
+
+/*
+* 运营数据完整信息
+*/
+message OperateData {
+	required string callLetter = 1;             //车辆呼号
+	required OperateDataBaseInfo baseInfo = 2;  //运营数据基本信息
+	required GpsBaseInfo startGps = 3;          //上车gps信息，
+	optional GpsReferPosition startPoi = 4;     //上车参考位置，
+	required GpsBaseInfo stopGps = 5;           //下车gps信息，
+	optional GpsReferPosition stopPoi = 6;      //下车参考位置，
+	optional bytes content = 7;                 //车台上传的原码，不转换成BCD可见ASCII码
+	optional int32 history = 8;				    //是否是黑匣子记录（0、或不存在表示是实时GPS，1:表示是黑匣子记录, 2:表示盲点补传）
+};
+
+/**
+ *  短消息
+ */
+ message ShortMessage{
+	required string callLetter = 1;		//车辆呼号
+	required string msg = 2;  		    //短消息内容
+	optional int64  recvTime = 3;		//接收时间
+};
+
+/**
+ *  行程信息(TravelInfo)
+ */
+ message TravelInfo {
+	required string callLetter = 1;			//车辆呼号
+	required int64 startTime = 2;			//开始时间
+	required int64 endTime = 3;			//结束时间
+	optional int32 distance = 4;			//里程（单位：米）
+	optional int32 maxSpeed = 5;			//最大速度（单位：0.1千米/小时）
+	optional int32 overSpeedTime = 6;		//超速时长（单位:秒）
+	optional int32 quickBrakeCount = 7;		//急刹车次数
+	optional int32 emergencyBrakeCount = 8;		//紧急刹车次数
+	optional int32 quickSpeedUpCount = 9;		//急加速次数
+	optional int32 emergencySpeedUpCount = 10;	//紧急加速次数
+	optional int32 averageSpeed = 11;		//平均速度（单位：0.1千米/小时）
+	optional int32 maxWaterTemperature = 12;	//发动机最高水温（单位：℃）
+	optional int32 maxRotationSpeed = 13;		//发动机最高工作转速（单位：转/分）
+	optional int32 voltage = 14;			//电压值（单位：0.1V）
+	optional int32 totalOil = 15;			//总油耗（单位：0.01升）
+	optional int32 averageOil = 16;			//平均油耗（单位：0.01升/百公里）
+	optional int32 tiredDrivingTime = 17;		//疲劳驾驶时长（单位:秒）
+	optional int32 serialNumber = 18;		//行程序号（0-255）
+	optional int32 averageRotationSpeed = 19;	//平均转速（单位：转/分）
+	optional int32 maxOil = 20;			//最高瞬时油耗（单位：0.01升/百公里）
+	optional int32 idleTime = 21;			//怠速时长（单位:秒）
+	optional GpsBaseInfo startGps = 22;		//点火gps基本信息，请参考基本信息protobuf定义
+	optional GpsReferPosition startReferPos = 23;	//点火参考位置，请参考参考位置protobuf定义
+	optional GpsBaseInfo endGps = 24;		//熄火gps基本信息，请参考基本信息protobuf定义
+	optional GpsReferPosition endReferPos = 25;	//熄火参考位置，请参考参考位置protobuf定义
+	optional int32 history = 26;				//是否是黑匣子记录（0、或不存在表示是实时GPS，1:表示是黑匣子记录, 2:表示盲点补传）
+};
+
+/**
+ *  模块故障信息(OBD)
+ */
+ message FaultDefine {
+	optional int32 faultType = 1;			//故障类别
+	repeated string faultCode = 2;			//故障码
+}
+
+message FaultInfo {
+	required string callLetter = 1;			//车辆呼号
+	required int64 faultTime = 2;			//故障时间(从1970-1-1 0:0:0开始的秒数，格林威治时间), 为了提高处理速度,不用字符串
+	repeated FaultDefine faults = 3;		//新的分类故障码
+	optional int32 unitType = 4;		    //终端协议类型
+	optional int32 history = 5;				//是否是黑匣子记录（0、或不存在表示是实时GPS，1:表示是黑匣子记录, 2:表示盲点补传）
+}
+
+/*
+* APP通知信息, 写到ActiveMQ, 
+*/
+message AppNoticeInfo {
+    required string callLetter = 1;                 //车辆呼号
+    required string title = 2;                      //通知标题
+    required string content = 3;                    //通知内容
+    optional GpsBaseInfo baseInfo = 4;              //gps基本信息，请参考基本信息protobuf定义
+    optional GpsReferPosition referPosition = 5;    //参考位置，请参考参考位置protobuf定义
+	optional int32 cmdId = 6;  		   //命令编号
+	optional int32 cmdretcode = 7;     //命令执行结果(ResultCode)
+    optional string cmdretmsg = 8;     //命令结果说明
+	optional int32 noticetype = 9;     //警情或提醒类别
+	                                   //0x21: 点火上报
+	                                   //0x22: 熄火上报
+	                                   //0x23: 休眼上报
+	                                   //0x24: 关机上报
+	                                   //0x25: 警情上报
+	                                   //0x2B: 熄火未关灯上报
+	                                   //0x2C: 熄火未关门上报
+	                                   //0x2D: 熄火未锁门上报
+	optional int32 alarmstatus = 10;   //警情状态
+    optional string cmdsn = 11;        //命令SN
+};
+
+/**
+ * 电控单元配置
+ * 各配置项的值 0:无此配置项  1:有此配置项
+ */
+message ECUConfig {
+	required string callLetter = 1;		//车辆呼号
+	required int64 updateTime = 2;		//配置更新的时间(从1970-1-1 0:0:0开始的毫秒数，格林威治时间)
+	optional int32 abs = 3;				//ABS配置
+	optional int32 esp = 4;				//ESP/DCU配置
+	optional int32 srs = 5;				//SRS配置
+	optional int32 ems = 6;				//EMS配置
+	optional int32 immo = 7;			//IMMO配置
+	optional int32 peps = 8;			//PEPS配置
+	optional int32 bcm = 9;				//BCM配置
+	optional int32 tcu = 10;			//TCU配置
+	optional int32 tpms = 11;			//TPMS配置
+	optional int32 apm = 12;			//APM配置
+	optional int32 icm = 13;			//ICM配置
+	optional int32 eps = 14;			//EPS配置
+};
